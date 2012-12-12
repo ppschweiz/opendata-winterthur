@@ -1,0 +1,13 @@
+Directory Structure:
+
+data:
+  the original data as received from financial department
+
+www:
+  files to upload to a web server (namely PHP-pages + database)
+
+scripts:
+  scripts to convert financial data
+
+doc:
+  development documentation
