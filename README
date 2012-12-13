@@ -1,3 +1,9 @@
+Call «make» for creating build in subdirectory «build»
+
+Required special tools:
+  ssconvert (package gnumeric) to convert excel to csv
+  csvtools (package csvtoold) for extracting csv tables
+
 Directory Structure:
 
 data:
@@ -11,3 +17,27 @@ scripts:
 
 doc:
   development documentation
+
+build:
+  build results
+
+
+
+
+Table Schema: see scripts/schema.sql
+
+Table accounts: Account numbers
+  account nr
+  eoe: effort(1) or earning(1)
+  name
+
+Table cost_units: Account numbers
+  cost unit nr
+  name
+
+Table accountings: Accountings
+  account nr
+  cost unit nr
+  year
+  boa: budget(0) or accounting(1)
+  amount
