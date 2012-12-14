@@ -11,7 +11,7 @@ CSV=${CSV0} ${CSV1} ${CSV2}
 DB=build/finance.db
 SQL=sqlite3
 
-all: accounts departments cost_units
+all: accounts departments cost_units accountings
 
 build:
 	mkdir build
