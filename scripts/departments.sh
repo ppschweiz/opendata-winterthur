@@ -8,8 +8,19 @@
 # fill up departments table
 
 IOS="INSERT OR REPLACE INTO departments VALUES "
+echo "$IOS (0, \"Gesamte Stadt\")"
 while test $# -gt 0; do
     sed -n 's/.*Kostenstelle *: \([0-9]*\) *\([^"]*\)  *(V).*/'"$IOS"'( \1, "\2" );/gp' $1 \
+        | sort | uniq
+    shift
+done
+
+# add departments also to cost_units
+
+IOS="INSERT OR REPLACE INTO cost_units VALUES "
+echo "$IOS (0, 0, \"Gesamte Stadt\")"
+while test $# -gt 0; do
+    sed -n 's/.*Kostenstelle *: \([0-9]*\) *\([^"]*\)  *(V).*/'"$IOS"'( \1, \1, "\2" );/gp' $1 \
         | sort | uniq
     shift
 done
