@@ -1,8 +1,15 @@
 Call «make» for creating build in subdirectory «build»
 
-Required special tools:
+Required special tools for building:
   ssconvert (package gnumeric) to convert excel to csv
   csvtools (package csvtoold) for extracting csv tables
+  sqlite3 (package sqlite3) for database generation
+  gawk (package gwak) GNU extended AWK
+
+For hosting, do:
+  call make
+  configure webserver such as apache to expose subdirectory www
+  webserver needs php with pdo and sqlite3 support
 
 Directory Structure:
 
