@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/bash -e
 
 ## @id $Id$
 
@@ -10,10 +10,10 @@
 IOS="INSERT OR REPLACE INTO accounts VALUES"
 while test $# -gt 0; do
     csvtool namedcol "Nr.","Bezeichnung" $1 \
-        | sed -n 's/^\(3[0-9][0-9][0-9]\),"*\([^"]*\)"*$/'"$IOS"' ( \1, 0, "\2" );/gp' \
-        | sort | uniq
+        | sed -n 's/^\(3[0-9]*\),"*\([^"]*\)"*$/'"$IOS"' ( \1, -1, "\2" );/gp'
     csvtool namedcol "Nr.","Bezeichnung" $1 \
-        | sed -n 's/^\(4[0-9][0-9][0-9]\),"*\([^"]*\)"*$/'"$IOS"' ( \1, 1, "\2" );/gp' \
-        | sort | uniq
+        | sed -n 's/^\(0[0-9]*\),"*\([^"]*\)"*$/'"$IOS"' ( \1, 0, "\2" );/gp'
+    csvtool namedcol "Nr.","Bezeichnung" $1 \
+        | sed -n 's/^\(4[0-9]*\),"*\([^"]*\)"*$/'"$IOS"' ( \1, 1, "\2" );/gp'
     shift
-done
+done | sort | uniq

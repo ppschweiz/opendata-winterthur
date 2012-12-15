@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/bash -e
 
 ## @id $Id$
 
@@ -33,15 +33,16 @@ while test $# -gt 0; do
           }
           NR==1 {
             print "BOA,Year,\"Cost Unit\"," $0
+            next
           }
           $1~/Kostenstelle/ {
             cost_unit=gensub(/.*Kostenstelle *: ([0-9]+) .*/, "\\1", "g", $1)
-            run=false
+            next
           }
           $1=="" && $2=="" {
-            run=!run
+            next
           }
-          run && ($1!="" || $2!="") {
+          {
             print "'$boa,${year[$i]}'," cost_unit "," $0
           }
         ' $1  | \
@@ -49,5 +50,4 @@ while test $# -gt 0; do
             awk -F, '{print "'$IOS' ( " $1 ", " $2 ", " $3 ", " $4" , " $5 " );"}'
     done
     shift
-done
-
+done | sort | uniq

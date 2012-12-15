@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/bash -e
 
 ## @id $Id$
 
@@ -9,7 +9,6 @@
 
 IOS="INSERT OR REPLACE INTO cost_units VALUES "
 while test $# -gt 0; do
-    sed -n 's/.*Kostenstelle *: \([0-9]\)\([0-9]*\) *\([^"]*\)  *(PG).*/'"$IOS"'( \1\2, \100000, "\3" );/gp' $1 \
-        | sort | uniq
+    sed -n 's/.*Kostenstelle *: \([0-9]\)\([0-9]*\) *\([^"]*\)  *(PG).*/'"$IOS"'( \1\2, \100000, "\3" );/gp' $1
     shift
-done
+done | sort | uniq
