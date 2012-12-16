@@ -10,6 +10,7 @@
 IOS1="INSERT OR REPLACE INTO departments VALUES "
 IOS2="INSERT OR REPLACE INTO cost_units VALUES "
 echo "$IOS1 (0, \"Stadt\");"
+echo "$IOS2 (0, 0, \"Total\");"
 while test $# -gt 0; do
     sed -n 's/.*Kostenstelle *: \([0-9]*\) *\([^"]*\)  *(V).*/'"$IOS1"'( \1, "\2" );/gp' $1
     sed -n 's/.*Kostenstelle *: \([0-9]*\) *\([^"]*\)  *(V).*/'"$IOS2"'( \1, \1, "Total" );/gp' $1

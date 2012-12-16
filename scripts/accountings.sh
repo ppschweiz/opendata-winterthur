@@ -47,7 +47,7 @@ while test $# -gt 0; do
           }
         ' $1  | \
             csvtool namedcol "Cost Unit,Nr.,Year,BOA,${cols[$i]}" - | \
-            awk -F, '{print "'$IOS' ( " $1 ", " $2 ", " $3 ", " $4" , " $5 " );"}'
+            awk -F, '{print "'$IOS' ( " $1 ", " $2 ", " $3 ", " $4" , " ($2==4||$2>=4000&&$2<5000?sprintf("%d",(-$5)):$5) " );"}'
     done
     shift
 done | sort | uniq
