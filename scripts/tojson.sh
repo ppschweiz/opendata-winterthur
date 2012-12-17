@@ -1,4 +1,4 @@
-# # #! /bin/bash -e
+#! /bin/bash -e
 
 # call with sqlite3 finance database build/finance.db
 db=${1:-build/finance.db}

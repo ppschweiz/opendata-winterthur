@@ -63,7 +63,7 @@
           foreach ($years as $year) {
             $amount = $db->query('SELECT amount FROM accountings WHERE cost_unit='.$row['cost_unit'].' AND account='.$row['account'].' AND year='.$year['year'].' AND boa='.$year['boa'])->fetchColumn();
             if (isset($last))
-                echo '<td>'.$amount.'</br>('.($amount==$last?'±':(abs($amount-$last)>0?'-':'+')).($last==0?($amount==0?'0':'∞'):round((abs(($amount-$last)*100/$last)))).'%)</td>';
+                echo '<td>'.$amount.'</br>('.($amount==$last?'±':($amount<$last?'-':'+')).($last==0?($amount==0?'0':'∞'):round(abs(($amount-$last)*100/$last))).'%)</td>';
               else
                 echo '<td>'.$amount.'</td>';
             $last = $amount;
