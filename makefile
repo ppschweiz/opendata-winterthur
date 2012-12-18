@@ -13,7 +13,11 @@ DB=build/finance.db
 SQL=sqlite3
 JSON=build/finance.json
 
-all: ${JSON}
+all: ${JSON} ${DB}
+
+install: ${JSON} ${DB}
+	cp ${JSON} www/
+	cp ${DB} www/
 
 build:
 	mkdir build

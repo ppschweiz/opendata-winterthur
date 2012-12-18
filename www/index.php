@@ -13,6 +13,8 @@
     <h1>Finanzen der Stadt Winterthur</h1>
     
     <p>Diese Daten sind von der <a href="http://winterthur.zh.piratenpartei.ch">Piratenpartei Winterthur</a> bearbeitet und werden ohne Gewähr zur Verfügung gestellt.</p>
+    
+    <p><a href="open-budget">Die Daten im Open-Budget</a></p>
   
     <?php
       //phpinfo();
@@ -55,9 +57,9 @@
           $acc = $db->query('SELECT name FROM accounts WHERE account="'.$row['account'].'"')->fetchColumn();
           if ($acc=='') $acc='**** Unknown Account '.$row['account'];
           echo '<tr>';
-          echo '<td>'.$dep.'</td>';
-          echo '<td>'.$cu.'</td>';
-          echo '<td>'.$acc.'</td>';
+          echo '<td>'.$depNum.': '.$dep.'</td>';
+          echo '<td>'.$row['cost_unit'].': '.$cu.'</td>';
+          echo '<td>'.$row['account'].': '.$acc.'</td>';
           $years = $db->query('SELECT * FROM years ORDER BY year ASC, boa');
           unset($last);
           foreach ($years as $year) {
