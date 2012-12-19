@@ -4,41 +4,40 @@
     <meta charset="utf-8" />
     <script language="javascript" type="text/javascript"
             src="/javascript/jquery/jquery.js"></script>
+    <style>
+      path {
+        fill: yellow;
+        stroke: black;
+      }
+    </style>
   </head>
   <body>
   
     <script>
-      annularSector = (centerX,centerY,startAngle,endAngle,innerRadius,outerRadius) ->               
-    startAngle  = degreesToRadians startAngle+180
-    endAngle    = degreesToRadians endAngle+180
-    p           = [ 
-        [ centerX+innerRadius*Math.cos(startAngle),     centerY+innerRadius*Math.sin(startAngle) ]
-        [ centerX+outerRadius*Math.cos(startAngle),     centerY+outerRadius*Math.sin(startAngle) ]
-        [ centerX+outerRadius*Math.cos(endAngle),       centerY+outerRadius*Math.sin(endAngle) ]
-        [ centerX+innerRadius*Math.cos(endAngle),       centerY+innerRadius*Math.sin(endAngle) ] 
-    ]
-    angleDiff   = endAngle - startAngle
-    largeArc    = (if (angleDiff % (Math.PI * 2)) > Math.PI then 1 else 0)
-    commands    = []
-
-    commands.push "M" + p[0].join()
-    commands.push "L" + p[1].join()
-    commands.push "A" + [ outerRadius, outerRadius ].join() + " 0 " + largeArc + " 1 " + p[2].join()
-    commands.push "L" + p[3].join()
-    commands.push "A" + [ innerRadius, innerRadius ].join() + " 0 " + largeArc + " 0 " + p[0].join()
-    commands.push "z"
-
-    return commands.join(" ")   
+      annular = function(centerX, centerY, startAngle1, endAngle1, innerRadius, outerRadius) {
+        startAngle = Math.PI*(startAngle1+180)/180;
+        endAngle = Math.PI*(endAngle1+180)/180;
+        angleDiff = endAngle - startAngle
+        largeArc = angleDiff % (Math.PI * 2) > Math.PI ? 1 : 0;
+        commands  = " M "+(centerX+innerRadius*Math.cos(startAngle))+","+(centerY+innerRadius*Math.sin(startAngle));
+        commands += " L "+(centerX+outerRadius*Math.cos(startAngle))+","+(centerY+outerRadius*Math.sin(startAngle));
+        commands += " A "+outerRadius+","+outerRadius+" 0 "+largeArc+",1 "+(centerX+outerRadius*Math.cos(endAngle))+","+(centerY+outerRadius*Math.sin(endAngle));
+        commands += " L "+(centerX+innerRadius*Math.cos(endAngle))+","+(centerY+innerRadius*Math.sin(endAngle));
+        commands += " A "+innerRadius+","+innerRadius+" 0 "+largeArc+",0 "+(centerX+innerRadius*Math.cos(startAngle))+","+(centerY+innerRadius*Math.sin(startAngle));
+        commands += " z ";
+        return svg('path').attr({"d": commands});
+      }
+      svg = function(name) {
+        return $(document.createElementNS("http://www.w3.org/2000/svg", name));
+      }
+      link = function(href) {
+        var a = svg("a");
+        a.get(0).setAttributeNS("http://www.w3.org/1999/xlink", "href", href);
+        return a;
+      }
     </script>
   
-    <svg width="500" height="500">
-    <path d="M200,200 L200,20 A180,180 0 0,1 377,231 z"
-        style="fill:#ff0000;
-                fill-opacity: 1;
-                stroke:black;
-                stroke-width: 1"/>
-      <path d="M100,500 a100,100 0 0,1 300,0" fill="green" stroke="blue" stroke-width="5" />
-      <path d="M200,500 a50,50 0 1,1 100,0" fill="red" stroke="blue" stroke-width="5" />
+    <svg id="canvas" viewBox="0 0 500 500" width="100%">
       <line x1="0" y1="0" x2="500" y2="0" stroke="black" />
       <line x1="0" y1="50" x2="500" y2="50" stroke="black" />
       <line x1="0" y1="100" x2="500" y2="100" stroke="black" />
@@ -63,17 +62,22 @@
       <line y1="0" x1="500" y2="500" x2="500" stroke="black" />
     </svg>
 
-    <p id="1">Dies ist ein Test</p>
-
     <script type="text/javascript">
+//       link("https://marc.waeckerlin.org").attr({title: "Marc Wäckerlin's Homepage"})
+//         .append(svg("circle").attr({cx: "400", cy: "400", r: "100", fill: "blue"}))
+//         .appendTo('#canvas');
+//       svg('path').attr({
+//         "d": annular(250, 250, 0, 350, 50, 200),
+//       }).prependTo('#canvas');
+      annular(250, 500, 0, 180, 0, 100).attr({title: "Budget"}).appendTo('#canvas');
       $.getJSON("finance.json", function(data) {
         var items = [];
         $.each(data, function(key, val) {
           items.push('<li id="' + key + '">' + val.name + '</li>');
         });
         $('<ul/>', {
-          class: 'my-new-list',
-          html: items.join('')
+          "class": 'my-new-list',
+          "html": items.join('')
         }).appendTo('body');
       });
     </script>
