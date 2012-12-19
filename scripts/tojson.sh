@@ -26,14 +26,14 @@ for directorate in $(query "select cost_unit from departments where cost_unit!=0
   unset first_year
   for year in $(query "select year from years where boa=0"); do
     if test -n "$first_year"; then echo ","; else first_year=0; fi
-    echo "                \"$year\": "$(query "select 0+coalesce(sum(amount), 0) from accountings where boa=0 and year=$year and cost_unit in (select cost_unit from cost_units where department=$directorate) and account in (select account from accounts where eoe=-1)")
+    echo "                \"$year\": "$(query "select 0+coalesce(sum(amount), 0) from accountings where boa=0 and year=$year and cost_unit in (select cost_unit from cost_units where department=$directorate) and account>999 and account in (select account from accounts where eoe=-1)")
   done
   echo "            },"
   echo "            \"accounts\": {"
   unset first_year
   for year in $(query "select year from years where boa=1"); do
     if test -n "$first_year"; then echo ","; else first_year=0; fi
-    echo "                \"$year\": "$(query "select 0+coalesce(sum(amount), 0) from accountings where boa=1 and year=$year and cost_unit in (select cost_unit from cost_units where department=$directorate) and account in (select account from accounts where eoe=-1)")
+    echo "                \"$year\": "$(query "select 0+coalesce(sum(amount), 0) from accountings where boa=1 and year=$year and cost_unit in (select cost_unit from cost_units where department=$directorate) and account>999 and account in (select account from accounts where eoe=-1)")
   done
   echo "            }"
   echo "        },"
@@ -43,14 +43,14 @@ for directorate in $(query "select cost_unit from departments where cost_unit!=0
   unset first_year
   for year in $(query "select year from years where boa=0"); do
     if test -n "$first_year"; then echo ","; else first_year=0; fi
-    echo "                \"$year\": "$(query "select 0+coalesce(sum(amount), 0) from accountings where boa=0 and year=$year and cost_unit in (select cost_unit from cost_units where department=$directorate) and account in (select account from accounts where eoe=1)")
+    echo "                \"$year\": "$(query "select 0+coalesce(sum(amount), 0) from accountings where boa=0 and year=$year and cost_unit in (select cost_unit from cost_units where department=$directorate) and account>999 and account in (select account from accounts where eoe=1)")
   done
   echo "            },"
   echo "            \"accounts\": {"
   unset first_year
   for year in $(query "select year from years where boa=1"); do
     if test -n "$first_year"; then echo ","; else first_year=0; fi
-    echo "                \"$year\": "$(query "select 0+coalesce(sum(amount), 0) from accountings where boa=1 and year=$year and cost_unit in (select cost_unit from cost_units where department=$directorate) and account in (select account from accounts where eoe=1)")
+    echo "                \"$year\": "$(query "select 0+coalesce(sum(amount), 0) from accountings where boa=1 and year=$year and cost_unit in (select cost_unit from cost_units where department=$directorate) and account>999 and account in (select account from accounts where eoe=1)")
   done
   echo "            }"
   echo "        },"
@@ -67,14 +67,14 @@ for directorate in $(query "select cost_unit from departments where cost_unit!=0
     unset first_year
     for year in $(query "select year from years where boa=0"); do
       if test -n "$first_year"; then echo ","; else first_year=0; fi
-      echo "                        \"$year\": "$(query "select 0+coalesce(sum(amount), 0) from accountings where boa=0 and year=$year and cost_unit=$agency and account in (select account from accounts where eoe=-1)")
+      echo "                        \"$year\": "$(query "select 0+coalesce(sum(amount), 0) from accountings where boa=0 and year=$year and cost_unit=$agency and account>999 and account in (select account from accounts where eoe=-1)")
     done
     echo "                    },"
     echo "                    \"accounts\": {"
     unset first_year
     for year in $(query "select year from years where boa=1"); do
       if test -n "$first_year"; then echo ","; else first_year=0; fi
-      echo "                        \"$year\": "$(query "select 0+coalesce(sum(amount), 0) from accountings where boa=1 and year=$year and cost_unit=$agency and account in (select account from accounts where eoe=-1)")
+      echo "                        \"$year\": "$(query "select 0+coalesce(sum(amount), 0) from accountings where boa=1 and year=$year and cost_unit=$agency and account>999 and account in (select account from accounts where eoe=-1)")
     done
     echo "                    }"
     echo "                },"
@@ -83,14 +83,14 @@ for directorate in $(query "select cost_unit from departments where cost_unit!=0
     unset first_year
     for year in $(query "select year from years where boa=0"); do
       if test -n "$first_year"; then echo ","; else first_year=0; fi
-      echo "                        \"$year\": "$(query "select 0+coalesce(sum(amount), 0) from accountings where boa=0 and year=$year and cost_unit=$agency and account in (select account from accounts where eoe=1)")
+      echo "                        \"$year\": "$(query "select 0+coalesce(sum(amount), 0) from accountings where boa=0 and year=$year and cost_unit=$agency and account>999 and account in (select account from accounts where eoe=1)")
     done
     echo "                    },"
     echo "                    \"accounts\": {"
     unset first_year
     for year in $(query "select year from years where boa=1"); do
       if test -n "$first_year"; then echo ","; else first_year=0; fi
-      echo "                        \"$year\": "$(query "select 0+coalesce(sum(amount), 0) from accountings where boa=1 and year=$year and cost_unit=$agency and account in (select account from accounts where eoe=1)")
+      echo "                        \"$year\": "$(query "select 0+coalesce(sum(amount), 0) from accountings where boa=1 and year=$year and cost_unit=$agency and account>999 and account in (select account from accounts where eoe=1)")
     done
     echo "                    }"
     echo "                },"
@@ -108,14 +108,14 @@ for directorate in $(query "select cost_unit from departments where cost_unit!=0
       unset first_year
       for year in $(query "select year from years where boa=0"); do
         if test -n "$first_year"; then echo ","; else first_year=0; fi
-        echo "                                \"$year\": "$(query "select 0+coalesce(sum(amount), 0) from accountings where boa=0 and year=$year and cost_unit=$agency and account=$product_group")
+        echo "                                \"$year\": "$(query "select 0+coalesce(sum(amount), 0) from accountings where boa=0 and year=$year and cost_unit=$agency and account>999 and account=$product_group")
       done
       echo "                            },"
       echo "                            \"accounts\": {"
       unset first_year
       for year in $(query "select year from years where boa=1"); do
         if test -n "$first_year"; then echo ","; else first_year=0; fi
-        echo "                                \"$year\": "$(query "select 0+coalesce(sum(amount), 0) from accountings where boa=1 and year=$year and cost_unit=$agency and account=$product_group")
+        echo "                                \"$year\": "$(query "select 0+coalesce(sum(amount), 0) from accountings where boa=1 and year=$year and cost_unit=$agency and account>999 and account=$product_group")
       done
       echo "                            }"
       echo "                        },"
@@ -137,14 +137,14 @@ for directorate in $(query "select cost_unit from departments where cost_unit!=0
       unset first_year
       for year in $(query "select year from years where boa=0"); do
         if test -n "$first_year"; then echo ","; else first_year=0; fi
-        echo "                                \"$year\": "$(query "select 0+coalesce(sum(amount), 0) from accountings where boa=0 and year=$year and cost_unit=$agency and account=$product_group")
+        echo "                                \"$year\": "$(query "select 0+coalesce(sum(amount), 0) from accountings where boa=0 and year=$year and cost_unit=$agency and account>999 and account=$product_group")
       done
       echo "                            },"
       echo "                            \"accounts\": {"
       unset first_year
       for year in $(query "select year from years where boa=1"); do
         if test -n "$first_year"; then echo ","; else first_year=0; fi
-        echo "                                \"$year\": "$(query "select 0+coalesce(sum(amount), 0) from accountings where boa=1 and year=$year and cost_unit=$agency and account=$product_group")
+        echo "                                \"$year\": "$(query "select 0+coalesce(sum(amount), 0) from accountings where boa=1 and year=$year and cost_unit=$agency and account>999 and account=$product_group")
       done
       echo "                            }"
       echo "                        },"
