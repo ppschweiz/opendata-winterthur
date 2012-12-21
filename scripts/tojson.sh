@@ -98,7 +98,7 @@ for directorate in $(query "select cost_unit from departments where cost_unit!=0
     echo "                \"product_groups\": {"
     
     # all expenses
-    for product_group in $(query "select distinct account from accountings where cost_unit=$agency and account in (select account from accounts where eoe=-1)"); do
+    for product_group in $(query "select distinct account from accountings where cost_unit=$agency and account>999 and account in (select account from accounts where eoe=-1)"); do
       echo "                    \"$product_group\": {"
       
       echo "                        \"number\": \"$product_group\","
@@ -126,7 +126,7 @@ for directorate in $(query "select cost_unit from departments where cost_unit!=0
     
     # all earnings
     unset first_product_group
-    for product_group in $(query "select distinct account from accountings where cost_unit=$agency and account in (select account from accounts where eoe=1)"); do
+    for product_group in $(query "select distinct account from accountings where cost_unit=$agency and account>999 and account in (select account from accounts where eoe=1)"); do
       if test -n "$first_product_group"; then echo ","; else first_product_group=0; fi
       echo "                    \"$product_group\": {"
       

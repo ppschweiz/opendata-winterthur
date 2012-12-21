@@ -42,6 +42,25 @@
         ?>
       </tbody>
     </table>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Konto</th><th>Bezeichnung</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php
+          $accounts = $db->query('select * from accounts where account>999');
+          foreach ($accounts as $account) {
+            $years = $db->query('SELECT * FROM years ORDER BY year ASC, boa');
+            foreach ($years as $year) {
+              $boa = $year['boa']==0 ? 'Budget ' : 'Rechnung ';
+            }
+          }
+        ?>
+      </tbody>
+    </table>
     
   </body>
 </html>

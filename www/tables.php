@@ -14,6 +14,15 @@
   <body>
   
     <script>
+      arc = function(centerX, centerY, startAngle1, endAngle1, radius) {
+        startAngle = Math.PI*(startAngle1+180)/180;
+        endAngle = Math.PI*(endAngle1+180)/180;
+        angleDiff = endAngle - startAngle
+        largeArc = angleDiff % (Math.PI * 2) > Math.PI ? 1 : 0;
+        commands  = " M "+(centerX+radius*Math.cos(startAngle))+","+(centerY+radius*Math.sin(startAngle));
+        commands += " A "+radius+","+radius+" 0 "+largeArc+",1 "+(centerX+radius*Math.cos(endAngle))+","+(centerY+radius*Math.sin(endAngle));
+        return svg('path').attr({"d": commands});
+      }
       annular = function(centerX, centerY, startAngle1, endAngle1, innerRadius, outerRadius) {
         startAngle = Math.PI*(startAngle1+180)/180;
         endAngle = Math.PI*(endAngle1+180)/180;
@@ -30,10 +39,12 @@
       svg = function(name) {
         return $(document.createElementNS("http://www.w3.org/2000/svg", name));
       }
-      link = function(href) {
-        var a = svg("a");
-        a.get(0).setAttributeNS("http://www.w3.org/1999/xlink", "href", href);
-        return a;
+      href = function(v, url) {
+        v.get(0).setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", url);
+        return v;
+      }
+      link = function(url) {
+        return href(svg("a"), url);
       }
     </script>
   
@@ -63,13 +74,11 @@
     </svg>
 
     <script type="text/javascript">
-//       link("https://marc.waeckerlin.org").attr({title: "Marc Wäckerlin's Homepage"})
-//         .append(svg("circle").attr({cx: "400", cy: "400", r: "100", fill: "blue"}))
-//         .appendTo('#canvas');
-//       svg('path').attr({
-//         "d": annular(250, 250, 0, 350, 50, 200),
-//       }).prependTo('#canvas');
-      annular(250, 500, 0, 180, 0, 100).attr({title: "Budget"}).appendTo('#canvas');
+      link("http://marc.waeckerlin.org").append(annular(250, 500, 0, 180, 0, 100).attr({title: "Budget", id: "budget"})).appendTo('#canvas');
+      svg('defs').append(arc(250, 500, 0, 180, 100).attr('id', 'bow')).appendTo('#canvas');
+      svg('text').attr({}).append(href(svg('textPath'), '#bow').append(svg('tspan').attr({"textLength": "400", x: "0", dy: "1em"}).text('Hallo Welt,')).append(svg('tspan').attr({x: "0", dy: "1em"}).text('dies ist ein')).append(svg('tspan').attr({x: "0", dy: "1em"}).text('langer Text ...'))).appendTo('#canvas');
+//       svg('text').attr({x: "100", y: "100", style: "stroke: #000000;"}).append(href(svg('textpath'), "#budget").text("Hallo Welt")).appendTo('#canvas');
+//       //.text("Budget")).appendTo('#canvas');
       $.getJSON("finance.json", function(data) {
         var items = [];
         $.each(data, function(key, val) {
@@ -81,6 +90,5 @@
         }).appendTo('body');
       });
     </script>
-
   </body>
 </html> 
