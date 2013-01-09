@@ -76,7 +76,7 @@
     <script type="text/javascript">
       link("http://marc.waeckerlin.org").append(annular(250, 500, 0, 180, 0, 100).attr({title: "Budget", id: "budget"})).appendTo('#canvas');
       svg('defs').append(arc(250, 500, 0, 180, 100).attr('id', 'bow')).appendTo('#canvas');
-      svg('text').attr({}).append(href(svg('textPath'), '#bow').append(svg('tspan').attr({"textLength": "400", x: "0", dy: "1em"}).text('Hallo Welt,')).append(svg('tspan').attr({x: "0", dy: "1em"}).text('dies ist ein')).append(svg('tspan').attr({x: "0", dy: "1em"}).text('langer Text ...'))).appendTo('#canvas');
+      svg('text').attr({}).append(href(svg('textPath'), '#bow').append(svg('tspan').attr({"textLength": "400", x: "0", dy: "1em"}).text('Hallo Welt, wie geht\'s Dir heute morgen?')).append(svg('tspan').attr({x: "0", dy: "1em"}).text('dies ist ein')).append(svg('tspan').attr({x: "0", dy: "1em"}).text('langer Text ...'))).appendTo('#canvas');
 //       svg('text').attr({x: "100", y: "100", style: "stroke: #000000;"}).append(href(svg('textpath'), "#budget").text("Hallo Welt")).appendTo('#canvas');
 //       //.text("Budget")).appendTo('#canvas');
       $.getJSON("finance.json", function(data) {

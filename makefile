@@ -18,6 +18,7 @@ all: ${JSON} ${DB}
 install: ${JSON} ${DB}
 	cp ${JSON} www/
 	cp ${DB} www/
+	if test -d www/open-budget/data; then cp ${JSON} www/open-budget/data/winterthur.json; fi
 
 build:
 	mkdir build

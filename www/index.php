@@ -18,7 +18,7 @@
   
     <?php
       //phpinfo();
-      $dbpath='sqlite:../build/finance.db';
+      $dbpath='sqlite:finance.db';
       $db = new PDO($dbpath);
     ?>
   
