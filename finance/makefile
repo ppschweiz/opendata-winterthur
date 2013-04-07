@@ -42,4 +42,4 @@ ${JSON}: scripts/tojson.sh ${TABLES}
 clean:
 	-rm -rf build
 
-.phony: all clean csv ${TABLES}
+.phony: all install clean csv ${TABLES}

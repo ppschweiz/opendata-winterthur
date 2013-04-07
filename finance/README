@@ -2,7 +2,7 @@ Call «make» for creating build in subdirectory «build»
 
 Required special tools for building:
   ssconvert (package gnumeric) to convert excel to csv
-  csvtools (package csvtoold) for extracting csv tables
+  csvtools (package csvtool) for extracting csv tables
   sqlite3 (package sqlite3) for database generation
   gawk (package gwak) GNU extended AWK
 
