@@ -35,11 +35,11 @@ while test $# -gt 0; do
             print "BOA,Year,\"Cost Unit\"," $0
             next
           }
-          $1~/Kostenstelle/ {
-            cost_unit=gensub(/.*Kostenstelle *: ([0-9]+) .*/, "\\1", "g", $1)
+          /.*Kostenstelle *: [0-9]+ .*/ {
+            cost_unit=gensub(/.*Kostenstelle *: ([0-9]+) .*/, "\\1", "g")
             next
           }
-          $1=="" && $2=="" {
+          $1=="" && $2=="" || $1=="Nr." || $2=="Nr." {
             next
           }
           {
@@ -47,7 +47,28 @@ while test $# -gt 0; do
           }
         ' $1  | \
             csvtool namedcol "Cost Unit,Nr.,Year,BOA,${cols[$i]}" - | \
-            awk -F, '{print "'$IOS' ( " $1 ", " $2 ", " $3 ", " $4" , " ($2==4||$2>=4000&&$2<5000?sprintf("%d",(-$5)):$5) " );"}'
+            awk -F, '
+              BEGIN {
+                print "'$IOS'"
+                firstline=1
+                limitcnt=1;
+              }
+              firstline==0 {
+                print ",( " $1 ", " $2 ", " $3 ", " $4" , " ($2==4||$2>=4000&&$2<5000?sprintf("%d",(-$5)):$5) " )"
+                ++limitcnt;
+              }
+              firstline==1 {
+                print "( " $1 ", " $2 ", " $3 ", " $4" , " ($2==4||$2>=4000&&$2<5000?sprintf("%d",(-$5)):$5) " )"
+                firstline=0
+              }
+              limitcnt==400 {
+                print ";\n'$IOS'"
+                limitcnt=0
+                firstline=1
+              }
+              END {
+                print ";"
+              }'
     done
     shift
-done | sort | uniq
+done

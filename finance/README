@@ -6,6 +6,9 @@ Required special tools for building:
   sqlite3 (package sqlite3) for database generation
   gawk (package gwak) GNU extended AWK
 
+Installation of these packages in Ubuntu:
+  sudo apt-get install gnumeric csvtool sqlite3 gawk
+
 For hosting, do:
   call make
   configure webserver such as apache to expose subdirectory www

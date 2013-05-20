@@ -7,39 +7,37 @@ EXCEL=$(shell ls data/*.xlsx)
 CSV0=${EXCEL:data/%.xlsx=build/%-0.csv}
 CSV1=${EXCEL:data/%.xlsx=build/%-1.csv}
 CSV2=${EXCEL:data/%.xlsx=build/%-2.csv}
-CSV=${CSV0} ${CSV1} ${CSV2}
+CSV_FILES=${CSV0} ${CSV1} ${CSV2}
+#SQL_FILES=${CSV_FILES:%.csv=%.sql}
 TABLES=years accounts departments cost_units accountings
 DB=build/finance.db
 SQL=sqlite3
 JSON=build/finance.json
 
-all: ${JSON} ${DB}
+all: ${JSON}
 
 install: ${JSON} ${DB}
 	cp ${JSON} www/
 	cp ${DB} www/
-	if test -d www/open-budget/data; then cp ${JSON} www/open-budget/data/winterthur.json; fi
 
 build:
 	mkdir build
-
-csv: build ${CSV}
 
 build/%-0.csv build/%-1.csv build/%-2.csv: data/%.xlsx
 	ssconvert -S -T Gnumeric_stf:stf_csv $< \
 	  ${<:data/%.xlsx=build/%}-%n.csv
 
-${DB}: scripts/schema.sql csv
-	${SQL} $@ < scripts/schema.sql
+${DB}: scripts/schema.sql build
+	${SQL} $@ < $<
 
-${JSON}: scripts/tojson.sh ${TABLES}
+${JSON}: scripts/tojson.sh ${TABLES:%=build/%.sql}
 	$< ${DB} | python -m simplejson.tool > $@
 
-%: scripts/%.sh ${DB}
-	$< ${CSV} | ${SQL} ${DB}
-
+build/%.sql: scripts/%.sh ${DB} ${CSV_FILES}
+	$< ${CSV_FILES} > $@
+	${SQL} ${DB} < $@
 
 clean:
 	-rm -rf build
 
-.phony: all install clean csv ${TABLES}
+.phony: all install clean
