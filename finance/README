@@ -51,3 +51,10 @@ Table accountings: Accountings
   year
   boa: budget(0) or accounting(1)
   amount
+
+
+If you have the table, you can use SQL queries, e.g.:
+
+Get a list of the difference of all the accounts in 2012 absolute and in percentage, sorted descending by the absolute difference:
+
+echo "select (select name from cost_units where cost_unit=a.cost_unit),(select name from departments where cost_unit=a.cost_unit),(select name from accounts where account=a.account),a.amount,a.amount-b.amount as diff,100*(a.amount-b.amount)/b.amount as percentage from accountings as b left join accountings as a where b.year=2012 and b.boa=0 and a.year=2012 and a.boa=1 and b.cost_unit=a.cost_unit and b.account=a.account order by abs(a.amount-b.amount) desc;" | sqlite3 finance/build/finance.db
