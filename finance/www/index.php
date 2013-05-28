@@ -14,7 +14,7 @@
     
     <p>Diese Daten sind von der <a href="http://winterthur.zh.piratenpartei.ch">Piratenpartei Winterthur</a> bearbeitet und werden ohne Gewähr zur Verfügung gestellt.</p>
     
-    <p><a href="open-budget">Die Daten im Open-Budget</a></p>
+    <p><a href="http://winterthur.budget.opendata.ch">Die Daten grafisch aufbereitet im Open-Budget</a></p>
   
     <?php
       //phpinfo();
