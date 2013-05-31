@@ -3,22 +3,28 @@
 ##       1         2         3         4         5         6         7         8
 ## 45678901234567890123456789012345678901234567890123456789012345678901234567890
 
+TABLES=years accounts departments cost_units accountings
+DB=build/finance.db
+SQL=sqlite3
+JSON=build/finance.json
+WORDPRESS=build/opendatacommunityfinances.zip
 EXCEL=$(shell ls data/*.xlsx)
 CSV0=${EXCEL:data/%.xlsx=build/%-0.csv}
 CSV1=${EXCEL:data/%.xlsx=build/%-1.csv}
 CSV2=${EXCEL:data/%.xlsx=build/%-2.csv}
 CSV_FILES=${CSV0} ${CSV1} ${CSV2}
-#SQL_FILES=${CSV_FILES:%.csv=%.sql}
-TABLES=years accounts departments cost_units accountings
-DB=build/finance.db
-SQL=sqlite3
-JSON=build/finance.json
+SQL_FILES=${TABLES:%=build/%.sql}
 
-all: ${JSON}
+all: ${JSON} ${SQL_FILES} ${DB}
+
+wordpress: ${WORDPRESS}
+
+build/%.zip: ${SQL_FILES}
+	cp ${DB} wordpress/${@:build/%.zip=%}/
+	cd wordpress && zip -r ../$@ ${@:build/%.zip=%}
 
 install: ${JSON} ${DB}
-	cp ${JSON} www/
-	cp ${DB} www/
+	cp ${JSON} ${DB} www/
 
 build:
 	mkdir build
