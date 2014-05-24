@@ -37,7 +37,7 @@ ${DB}: scripts/schema.sql build
 	${SQL} $@ < $<
 
 ${JSON}: scripts/tojson.sh ${TABLES:%=build/%.sql}
-	$< ${DB} | python -m simplejson.tool > $@
+	$< ${DB} | tee ${@:%.json=%-tmp.json} | python -m simplejson.tool > $@
 
 build/%.sql: scripts/%.sh ${DB} ${CSV_FILES}
 	$< ${CSV_FILES} > $@
