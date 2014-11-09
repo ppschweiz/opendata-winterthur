@@ -36,7 +36,7 @@ while test $# -gt 0; do
             next
           }
           $1~/Kostenstelle/ {
-            cost_unit=gensub(/.*Kostenstelle *: ([0-9]+) .*/, "\\1", "g", $1)
+            cost_unit=gensub(/.*Kostenstelle *: ([0-9]+) .*/, "\\1", "g")
             next
           }
           $1=="" && $2=="" {
@@ -45,7 +45,7 @@ while test $# -gt 0; do
           {
             print "'$boa,${year[$i]}'," cost_unit "," $0
           }
-        ' $1
+        ' $1 | csvtool namedcol "Cost Unit,Nr.,Year,BOA,${cols[$i]}" - 
     done
     shift
 done
